@@ -3054,6 +3054,490 @@ ul, ol { list-style: none; }
 }
 
 /* ============================================
+   TASK TYPES: OPEN-ENDED, MATCHING, FILL-BLANK
+   ============================================ */
+.open-ended-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.open-ended-area textarea.answer-textarea {
+  width: 100%;
+  padding: var(--space-4);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  color: var(--gray-800);
+  background: white;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: all var(--transition-fast);
+  line-height: 1.6;
+}
+
+.open-ended-area textarea.answer-textarea:focus {
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.answer-hint {
+  font-size: 0.8125rem;
+  color: var(--gray-400);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Matching exercise */
+.matching-exercise {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.matching-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.matching-column-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gray-400);
+  margin-bottom: var(--space-1);
+}
+
+.match-item {
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  background: white;
+  cursor: grab;
+  transition: all var(--transition-fast);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.match-item:active { cursor: grabbing; }
+
+.match-item:hover {
+  border-color: var(--primary-300);
+  background: var(--primary-50);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.match-item.dragging {
+  opacity: 0.5;
+  border-color: var(--primary-400);
+}
+
+.match-item.matched {
+  border-color: var(--success-400);
+  background: var(--success-50);
+  color: var(--success-700);
+}
+
+.match-item .drag-handle {
+  color: var(--gray-300);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.match-drop-zone {
+  padding: var(--space-3) var(--space-4);
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  font-size: 0.9375rem;
+  color: var(--gray-400);
+  background: var(--gray-50);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.match-drop-zone.drag-over {
+  border-color: var(--primary-400);
+  background: var(--primary-50);
+  color: var(--primary-600);
+}
+
+.match-drop-zone.filled {
+  border-color: var(--success-400);
+  background: var(--success-50);
+  border-style: solid;
+  color: var(--success-700);
+  font-weight: 500;
+}
+
+/* Fill-in-the-blank */
+.fill-blank-sentence {
+  font-size: 1.0625rem;
+  color: var(--gray-800);
+  line-height: 2.2;
+}
+
+.fill-blank-input {
+  display: inline-block;
+  width: 100px;
+  padding: 4px 10px;
+  border: 2px solid var(--primary-300);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--primary-700);
+  background: var(--primary-50);
+  outline: none;
+  text-align: center;
+  transition: all var(--transition-fast);
+  vertical-align: middle;
+  margin: 0 6px;
+}
+
+.fill-blank-input:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+  background: white;
+}
+
+.sorting-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  min-height: 64px;
+}
+
+.sort-chip {
+  padding: 8px 16px;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.sort-chip:hover {
+  border-color: var(--primary-300);
+  background: var(--primary-50);
+  color: var(--primary-700);
+  transform: translateY(-1px);
+}
+
+.sort-chip.placed {
+  background: var(--primary-100);
+  border-color: var(--primary-400);
+  color: var(--primary-700);
+}
+
+.sort-answer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--gray-200);
+  min-height: 64px;
+  align-items: center;
+}
+
+.sort-answer-slot {
+  padding: 8px 16px;
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-full);
+  font-size: 0.9375rem;
+  color: var(--gray-400);
+  min-width: 80px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sort-answer-slot.filled {
+  border-style: solid;
+  border-color: var(--success-400);
+  background: var(--success-50);
+  color: var(--success-700);
+  font-weight: 600;
+}
+
+/* Task type selector tabs */
+.task-type-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  background: var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+}
+
+.task-type-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.task-type-tab:hover { color: var(--gray-700); }
+
+.task-type-tab.active {
+  background: white;
+  color: var(--primary-700);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   APP DOWNLOAD SECTION
+   ============================================ */
+.app-download-section {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--accent-purple) 50%, #EC4899 100%);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10) var(--space-12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-10);
+  margin: var(--space-6) 0;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+.app-download-section::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.app-download-section::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: 5%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.app-download-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.app-download-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 5px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.03em;
+}
+
+.app-download-content h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: var(--space-3);
+}
+
+.app-download-content p {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+  max-width: 460px;
+}
+
+.app-store-btns {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.store-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  min-width: 155px;
+}
+
+.store-btn:hover {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.store-btn .store-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.store-btn .store-text {
+  text-align: left;
+}
+
+.store-btn .store-sub {
+  font-size: 0.6875rem;
+  opacity: 0.8;
+  font-weight: 500;
+  display: block;
+  line-height: 1.3;
+}
+
+.store-btn .store-name {
+  font-size: 1rem;
+  font-weight: 700;
+  display: block;
+  line-height: 1.3;
+}
+
+.app-download-mockup {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.phone-mockup {
+  width: 160px;
+  height: 290px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 10px 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.phone-notch {
+  width: 50px;
+  height: 8px;
+  background: rgba(0,0,0,0.35);
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.phone-screen-content {
+  flex: 1;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 8px;
+}
+
+.phone-screen-content .phone-app-icon {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--primary-400), var(--accent-purple));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 12px rgba(99,102,241,0.4);
+}
+
+.phone-mini-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.phone-mini-progress-fill {
+  height: 100%;
+  width: 65%;
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--radius-full);
+}
+
+.phone-mini-bars {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+  height: 28px;
+}
+
+.phone-mini-bar {
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.3);
+}
+
+.phone-mini-stat {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ============================================
    ANIMATIONS
    ============================================ */
 @keyframes fadeInUp {
@@ -3949,27 +4433,110 @@ ul, ol { list-style: none; }
                 <div class="task-type-badge">
                   <span class="badge badge-primary">Практика • Дроби</span>
                 </div>
-                <div class="task-question">
-                  Вычислите: <strong>3/8 + 2/8</strong>. Выберите правильный ответ.
+
+                <!-- Task Type Selector Tabs -->
+                <div class="task-type-tabs">
+                  <div class="task-type-tab active" onclick="switchTaskType('mc', this)">🔘 Тест</div>
+                  <div class="task-type-tab" onclick="switchTaskType('open', this)">✍️ Открытый</div>
+                  <div class="task-type-tab" onclick="switchTaskType('match', this)">🔗 Соответствие</div>
+                  <div class="task-type-tab" onclick="switchTaskType('fill', this)">📝 Вставь слово</div>
                 </div>
 
-                <div class="answer-options">
-                  <div class="answer-option" onclick="selectAnswer(this)">
-                    <div class="answer-radio"></div>
-                    <span>5/16</span>
+                <!-- TASK: Multiple Choice -->
+                <div id="task-mc" class="task-type-panel">
+                  <div class="task-question">
+                    Вычислите: <strong>3/8 + 2/8</strong>. Выберите правильный ответ.
                   </div>
-                  <div class="answer-option" onclick="selectAnswer(this)">
-                    <div class="answer-radio"></div>
-                    <span>5/8</span>
+                  <div class="answer-options">
+                    <div class="answer-option" onclick="selectAnswer(this)">
+                      <div class="answer-radio"></div>
+                      <span>5/16</span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this)">
+                      <div class="answer-radio"></div>
+                      <span>5/8</span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this)">
+                      <div class="answer-radio"></div>
+                      <span>6/8</span>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this)">
+                      <div class="answer-radio"></div>
+                      <span>1/8</span>
+                    </div>
                   </div>
-                  <div class="answer-option" onclick="selectAnswer(this)">
-                    <div class="answer-radio"></div>
-                    <span>6/8</span>
+                </div>
+
+                <!-- TASK: Open-Ended -->
+                <div id="task-open" class="task-type-panel" style="display:none;">
+                  <div class="task-question">
+                    Объясни своими словами: <strong>почему при сложении дробей с одинаковыми знаменателями знаменатель не меняется?</strong> Приведи пример.
                   </div>
-                  <div class="answer-option" onclick="selectAnswer(this)">
-                    <div class="answer-radio"></div>
-                    <span>1/8</span>
+                  <div class="open-ended-area">
+                    <textarea class="answer-textarea" placeholder="Напиши свой ответ здесь…"></textarea>
+                    <div class="answer-hint">
+                      <span>💡</span>
+                      <span>Подумай о пиццах, разрезанных на равные части — это поможет объяснить!</span>
+                    </div>
                   </div>
+                </div>
+
+                <!-- TASK: Matching -->
+                <div id="task-match" class="task-type-panel" style="display:none;">
+                  <div class="task-question">
+                    Установи соответствие: перетащи результат к правильному примеру.
+                  </div>
+                  <div class="matching-exercise">
+                    <div class="matching-column">
+                      <div class="matching-column-title">Пример</div>
+                      <div class="match-item" draggable="false">
+                        <span>2/5 + 1/5 =</span>
+                      </div>
+                      <div class="match-item" draggable="false">
+                        <span>7/9 − 4/9 =</span>
+                      </div>
+                      <div class="match-item" draggable="false">
+                        <span>3/8 + 3/8 =</span>
+                      </div>
+                      <div class="match-item" draggable="false">
+                        <span>5/6 − 1/6 =</span>
+                      </div>
+                    </div>
+                    <div class="matching-column">
+                      <div class="matching-column-title">Ответ</div>
+                      <div class="match-drop-zone" onclick="matchAnswer(this, '3/5')">3/5</div>
+                      <div class="match-drop-zone" onclick="matchAnswer(this, '1/3')">1/3</div>
+                      <div class="match-drop-zone" onclick="matchAnswer(this, '3/4')">3/4</div>
+                      <div class="match-drop-zone" onclick="matchAnswer(this, '2/3')">2/3</div>
+                    </div>
+                  </div>
+                  <div style="margin-top:var(--space-3);font-size:0.8125rem;color:var(--gray-400);">👆 Нажимай на ответы, чтобы выделить совпадение</div>
+                </div>
+
+                <!-- TASK: Fill-in-the-blank / Sorting -->
+                <div id="task-fill" class="task-type-panel" style="display:none;">
+                  <div class="task-question" style="margin-bottom:var(--space-5);">
+                    Расставь шаги сложения дробей в правильном порядке:
+                  </div>
+                  <div style="margin-bottom:var(--space-4);">
+                    <div class="matching-column-title" style="margin-bottom:var(--space-2);">Выбери и нажимай по порядку:</div>
+                    <div class="sorting-options" id="sort-source">
+                      <div class="sort-chip" onclick="placeSortChip(this, 'Записать результат')">Записать результат</div>
+                      <div class="sort-chip" onclick="placeSortChip(this, 'Сложить числители')">Сложить числители</div>
+                      <div class="sort-chip" onclick="placeSortChip(this, 'Оставить знаменатель')">Оставить знаменатель</div>
+                      <div class="sort-chip" onclick="placeSortChip(this, 'Сократить дробь')">Сократить дробь</div>
+                    </div>
+                  </div>
+                  <div style="margin-bottom:var(--space-2);">
+                    <div class="matching-column-title" style="margin-bottom:var(--space-2);">Правильный порядок:</div>
+                    <div class="sort-answer-row" id="sort-target">
+                      <div class="sort-answer-slot" id="slot-1" onclick="removeSortChip(this)">1</div>
+                      <div class="sort-answer-slot" id="slot-2" onclick="removeSortChip(this)">2</div>
+                      <div class="sort-answer-slot" id="slot-3" onclick="removeSortChip(this)">3</div>
+                      <div class="sort-answer-slot" id="slot-4" onclick="removeSortChip(this)">4</div>
+                    </div>
+                  </div>
+                  <div style="font-size:0.8125rem;color:var(--gray-400);">👆 Нажми на шаг чтобы поставить, нажми ещё раз — убрать</div>
                 </div>
               </div>
 
@@ -4460,10 +5027,6 @@ ul, ol { list-style: none; }
                 <div class="plan-icon" style="background:var(--gray-100);color:var(--gray-600);">📖</div>
                 <div class="plan-name">Basic</div>
                 <div class="plan-desc">Доступ к курсам и тестам</div>
-                <div class="plan-price">
-                  <span class="price-amount">500 ₽</span>
-                  <span class="price-period">/ месяц</span>
-                </div>
                 <div class="plan-features">
                   <div class="plan-feature">
                     <span class="feature-icon included">✓</span>
@@ -4498,10 +5061,6 @@ ul, ol { list-style: none; }
                 <div class="plan-icon" style="background:var(--primary-100);color:var(--primary-600);">🤖</div>
                 <div class="plan-name">Pro</div>
                 <div class="plan-desc">AI-помощник для обучения</div>
-                <div class="plan-price">
-                  <span class="price-amount">1 990 ₽</span>
-                  <span class="price-period">/ месяц</span>
-                </div>
                 <div class="plan-features">
                   <div class="plan-feature">
                     <span class="feature-icon included">✓</span>
@@ -4536,10 +5095,6 @@ ul, ol { list-style: none; }
                 <div class="plan-icon" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);color:var(--warning-600);">👩‍🏫</div>
                 <div class="plan-name">Premium</div>
                 <div class="plan-desc">Персональный куратор</div>
-                <div class="plan-price">
-                  <span class="price-amount">4 990 ₽</span>
-                  <span class="price-period">/ месяц</span>
-                </div>
                 <div class="plan-features">
                   <div class="plan-feature">
                     <span class="feature-icon included">✓</span>
@@ -4569,9 +5124,52 @@ ul, ol { list-style: none; }
                 <button class="plan-cta btn btn-secondary" style="border-color:var(--warning-300);color:var(--warning-600);">Выбрать Premium</button>
               </div>
             </div>
-          </div>
 
-          <!-- ========== PARENT DASHBOARD ========== -->
+            <!-- APP DOWNLOAD SECTION -->
+            <div class="app-download-section">
+              <div class="app-download-content">
+                <div class="app-download-eyebrow">📱 Мобильное приложение</div>
+                <h2>Доступно как приложение — скачай прямо сейчас</h2>
+                <p>Учись в любом месте и в любое время. MathPulse на смартфоне — уроки, практика и AI-помощник всегда под рукой.</p>
+                <div class="app-store-btns">
+                  <button class="store-btn" onclick="void(0)">
+                    <span class="store-icon">🍎</span>
+                    <span class="store-text">
+                      <span class="store-sub">Скачать в</span>
+                      <span class="store-name">App Store</span>
+                    </span>
+                  </button>
+                  <button class="store-btn" onclick="void(0)">
+                    <span class="store-icon">▶️</span>
+                    <span class="store-text">
+                      <span class="store-sub">Скачать в</span>
+                      <span class="store-name">Google Play</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <div class="app-download-mockup">
+                <div class="phone-mockup">
+                  <div class="phone-notch"></div>
+                  <div class="phone-screen-content">
+                    <div class="phone-app-icon">M</div>
+                    <div class="phone-mini-stat">📊 Прогресс 65%</div>
+                    <div class="phone-mini-progress">
+                      <div class="phone-mini-progress-fill"></div>
+                    </div>
+                    <div class="phone-mini-bars">
+                      <div class="phone-mini-bar" style="height:40%;"></div>
+                      <div class="phone-mini-bar" style="height:65%;"></div>
+                      <div class="phone-mini-bar" style="height:55%;"></div>
+                      <div class="phone-mini-bar" style="height:80%;"></div>
+                      <div class="phone-mini-bar" style="height:72%;"></div>
+                    </div>
+                    <div class="phone-mini-stat">🔥 12 дней подряд</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div id="page-parent-dashboard" class="page-view hidden">
             <div class="parent-header">
               <h1>👨‍👩‍👧 Панель родителя</h1>
@@ -4776,7 +5374,7 @@ ul, ol { list-style: none; }
                 <div class="settings-row">
                   <div class="setting-info">
                     <h4>Email</h4>
-                    <p>alisa@example.com</p>
+                    <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3455585d475574514c55594458511a575b59">[email&#160;protected]</a></p>
                   </div>
                   <button class="btn btn-sm btn-ghost">Изменить</button>
                 </div>
@@ -4787,7 +5385,7 @@ ul, ol { list-style: none; }
                 <div class="settings-row">
                   <div class="setting-info">
                     <h4>Текущий план</h4>
-                    <p>Pro • 1 990 ₽/мес</p>
+                    <p>Pro</p>
                   </div>
                   <button class="btn btn-sm btn-secondary" onclick="navigateTo('pricing')">Изменить план</button>
                 </div>
@@ -4839,7 +5437,73 @@ ul, ol { list-style: none; }
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ============================================
+   TASK TYPE INTERACTIONS
+   ============================================ */
+function switchTaskType(type, tabEl) {
+  // Toggle tab active state
+  document.querySelectorAll('.task-type-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+
+  // Show correct panel
+  document.querySelectorAll('.task-type-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('task-' + type).style.display = 'block';
+}
+
+// Matching exercise: simple click-to-pair
+let selectedMatchItem = null;
+function matchAnswer(el, label) {
+  if (el.classList.contains('filled')) {
+    el.classList.remove('filled');
+    el.textContent = label;
+    return;
+  }
+  el.classList.toggle('drag-over');
+  setTimeout(() => {
+    el.classList.remove('drag-over');
+    el.classList.add('filled');
+  }, 180);
+}
+
+// Sorting exercise
+let sortSlotIndex = 1;
+function placeSortChip(chipEl, label) {
+  if (chipEl.classList.contains('placed')) return;
+  const slot = document.getElementById('slot-' + sortSlotIndex);
+  if (!slot || slot.classList.contains('filled')) return;
+  slot.textContent = label;
+  slot.classList.add('filled');
+  slot.dataset.label = label;
+  chipEl.classList.add('placed');
+  chipEl.dataset.slot = sortSlotIndex;
+  sortSlotIndex++;
+}
+
+function removeSortChip(slotEl) {
+  if (!slotEl.classList.contains('filled')) return;
+  const label = slotEl.dataset.label;
+  // Re-enable the source chip
+  document.querySelectorAll('.sort-chip').forEach(chip => {
+    if (chip.textContent === label) chip.classList.remove('placed');
+  });
+  // Reset the slot and all subsequent slots
+  const slotNum = parseInt(slotEl.id.split('-')[1]);
+  for (let i = slotNum; i <= 4; i++) {
+    const s = document.getElementById('slot-' + i);
+    if (s && s.classList.contains('filled')) {
+      // re-enable its chip too
+      document.querySelectorAll('.sort-chip').forEach(chip => {
+        if (chip.textContent === s.dataset.label) chip.classList.remove('placed');
+      });
+      s.textContent = i;
+      s.classList.remove('filled');
+      s.dataset.label = '';
+    }
+  }
+  sortSlotIndex = slotNum;
+}
+
 /* ============================================
    NAVIGATION & SCREEN MANAGEMENT
    ============================================ */
